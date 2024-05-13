@@ -15,14 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterActivity extends AppCompatActivity {
+public class JoinActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
@@ -33,14 +32,14 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_join);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("GreenUpReal2");
 
-        mEtEmail = findViewById(R.id.et_email);
-        mEtPwd = findViewById(R.id.et_pwd);
-        mBtnRegister = findViewById(R.id.btn_register);
+        mEtEmail = findViewById(R.id.loginID_text);
+        mEtPwd = findViewById(R.id.editTextPassword);
+        mBtnRegister = findViewById(R.id.join_button);
 
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String strPwd = mEtPwd.getText().toString();
 
                 // Firebase Auth 진행
-                mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(JoinActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -64,9 +63,9 @@ public class RegisterActivity extends AppCompatActivity {
                             // setValue: database에 삽입
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 
-                            Toast.makeText(RegisterActivity.this,"회원가입에 성공!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(JoinActivity.this,"회원가입에 성공!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(RegisterActivity.this,"회원가입에 실패!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(JoinActivity.this,"회원가입에 실패!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -38,13 +38,13 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("GreenUpReal2");
 
-        mEtEmail = findViewById(R.id.et_email);
-        mEtPwd = findViewById(R.id.et_pwd);
+        mEtEmail = findViewById(R.id.editTextID);
+        mEtPwd = findViewById(R.id.editTextPassword);
 
 
 
 
-        Button btn_login = findViewById(R.id.btn_login);
+        Button btn_login = findViewById(R.id.login_button);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             // 로그인 성공
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -70,12 +71,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        Button btn_register = findViewById(R.id.btn_register);
+        Button btn_register = findViewById(R.id.join_button);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 회원가입 화면으로 이동
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
             }
         });
