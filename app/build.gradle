@@ -57,6 +57,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.firebase.auth
     implementation libs.firebase.database
+    implementation 'com.google.firebase:firebase-database:20.0.5'
     implementation libs.play.services.maps // api
     implementation libs.play.services.location
     implementation libs.lifecycle.runtime.ktx

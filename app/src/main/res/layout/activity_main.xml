@@ -23,7 +23,7 @@
     </Toolbar>
 
     <TextView
-        android:text="<현재위치>"
+        android:text="현재위치"
         android:textSize="20dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

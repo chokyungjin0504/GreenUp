@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="navigation_color_home">#008577</color>
+    <color name="navigation_color_favorite">#1194AA</color>
+    <color name="navigation_color_pickup_list">#008577</color>
+    <color name="navigation_color_mypage">#1194AA</color>
 </resources>
