@@ -8,11 +8,15 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,11 +28,16 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.inhatc.greenupreal2.databinding.ActivityMapsBinding;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private LatLng objLocation;
+    private Button btnSetLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +50,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        btnSetLocation = findViewById(R.id.btnSetLocation);
+        btnSetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (objLocation != null) {
+                    String address = getAddressFromLatLng(objLocation);
+                    Intent intent = new Intent();
+                    intent.putExtra("location", address);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(MapsActivity.this, "Current location not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -76,7 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
 
-
         LocationManager locationManager;
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -88,19 +103,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(strLocationProvider, minTime, minDistance, locationListener);
         strLocationProvider = LocationManager.NETWORK_PROVIDER;
         locationManager.requestLocationUpdates(strLocationProvider, minTime, minDistance, locationListener);
-
-
-
-
-        // Add a marker in Sydney and move the camera
-//        LatLng latLng = new LatLng(37.4482372, 126.6575148);
-//        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("inhaTC");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f)); //확대
-//        googleMap.addMarker(markerOptions); //마커
-//
-//        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-
     }
 
     private void mAlertProvider(String strProvider) {
@@ -108,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void mAlertStatus(String strProvider) {
-        Toast.makeText(this, strProvider + "Starting location service !", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, strProvider + " Starting location service !", Toast.LENGTH_LONG).show();
     }
 
     private void mUpdateMap(Location location) {
@@ -120,8 +122,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         objMK.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(objLocation, 15f));
     }
+
     public void mCheckProvider(String strProvider) {
-        Toast.makeText(this, strProvider + "Location service turn off ... " +
+        Toast.makeText(this, strProvider + " Location service turn off ... " +
                 "Please Turn on location service...", Toast.LENGTH_SHORT).show();
 
         Intent objIntent;
@@ -129,5 +132,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(objIntent);
     }
 
-
+    private String getAddressFromLatLng(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                return address.getAddressLine(0); // 주소의 첫번째 줄을 반환
+            } else {
+                return "Address not found";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Geocoder service not available";
+        }
+    }
 }

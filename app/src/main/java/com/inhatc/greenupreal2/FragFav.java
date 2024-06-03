@@ -1,4 +1,4 @@
-package com.inhatc.greenupreal2.Fragment;
+package com.inhatc.greenupreal2;
 
 import android.os.Bundle;
 
@@ -8,15 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.inhatc.greenupreal2.R;
-
-public class Pickup_List extends AppCompatActivity {
+public class FragFav extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_pickup_list);
+        setContentView(R.layout.activity_frag_fav);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

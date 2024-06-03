@@ -1,15 +1,20 @@
-<?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
-<actions>
-    <!-- App Actions are deprecated. Use shortcuts instead https://developers.google.com/assistant/app/action-schema -->
-    <!--    Example Action -->
-    <!--    <action intentName="Intent name (actions.intent.*)"> -->
-    <!--        <action-display -->
-    <!--            icon="@mipmap/..." -->
-    <!--            labelTemplate="@array/..." /> -->
-    <!--        <fulfillment urlTemplate="Action content URI or URL"> -->
-    <!--            <parameter-mapping -->
-    <!--                intentParameter="Parameter name in Intent URI" -->
-    <!--                urlParameter="Parameter name in URL" /> -->
-    <!--        </fulfillment> -->
-    <!--    </action> -->
-</actions>
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home_btn"
+        android:title="home"
+        android:icon="@drawable/home" />
+    <item
+        android:id="@+id/fav_btn"
+        android:title="favorites"
+        android:icon="@drawable/favorite" />
+    <item
+        android:id="@+id/pickup_btn"
+        android:title="pickup_list"
+        android:icon="@drawable/pickup_list" />
+    <item
+        android:id="@+id/mypage_btn"
+        android:title="mypage"
+        android:icon="@drawable/mypage" />
+</menu>

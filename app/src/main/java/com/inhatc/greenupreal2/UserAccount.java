@@ -1,42 +1,44 @@
 package com.inhatc.greenupreal2;
-/*
-* 사용자 계정 정보 모델 클래스
-* */
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserAccount {
 
-    private String idTocken; // Firebase Uid (고유 토큰정보)
-    private String emailId; // 이메일 아이디
-    private String password; // 비밀번호
+    public String emailId; // 이메일 아이디
+    public String password; // 비밀번호
+    public String name;
+    public String phone;
 
-
-
-    public String getIdTocken() {
-        return idTocken;
-    }
-
-    public void setIdTocken(String idTocken) {
-        this.idTocken = idTocken;
-    }
-
-
-    // 파이어베이스 RealTime 쓸때는 빈 생성자가 필요함
     public UserAccount() {
+
+    }
+    public UserAccount(String Name, String Phone_No, String Pw, String Email) {
+        this.emailId = Email;
+        this.password = Pw;
+        this.phone = Phone_No;
+        this.name = Name;
+    }
+    public void mSet_CInfo(String Name, String Phone_No, String Pw, String Email) {
+        this.emailId = Email;
+        this.password = Pw;
+        this.phone = Phone_No;
+        this.name = Name;
+    }
+    public String mGet_CName() {
+        return name;
+    }
+    public String mGet_CPhone_No() {
+        return phone;
+    }
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("Name", name);
+        result.put("Phone", phone);
+        result.put("Pw", password);
+        result.put("Email", emailId);
+        return result;
     }
 
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

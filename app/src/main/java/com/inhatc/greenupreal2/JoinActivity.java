@@ -1,6 +1,7 @@
 package com.inhatc.greenupreal2;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,15 +19,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class JoinActivity extends AppCompatActivity {
+import java.util.HashMap;
 
-    private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증
-    private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
-    private EditText mEtEmail, mEtPwd; // 회원가입 입력필드
-    private Button mBtnRegister; // 회원가입 버튼
+public class JoinActivity extends AppCompatActivity implements View.OnClickListener {
+
+    FirebaseDatabase myFirebase;
+    DatabaseReference myDB_Reference = null;
+    
+    HashMap<String, Object> Customer_Value = null;
+    UserAccount objCustomerInfo = null;
+
+    EditText mEtEmail, mEtPwd, mEtName, mEtPhone; // 회원가입 입력필드
+    Button mBtnRegister; // 회원가입 버튼
+    String strHeader = "Customer Information"; //Firebase Key
+    String strCName = null;
+    String strCEmail = null;
+    String strCPhone = null;
+    String strCPassword = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,49 +50,77 @@ public class JoinActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_join);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("GreenUpReal2");
+        mEtName = (EditText)findViewById(R.id.id_nametext);
+        mEtEmail = (EditText)findViewById(R.id.loginID_text);
+        mEtPwd = (EditText)findViewById(R.id.editTextPassword);
+        mEtPhone = (EditText)findViewById(R.id.id_Phonetext);
 
-        mEtEmail = findViewById(R.id.loginID_text);
-        mEtPwd = findViewById(R.id.editTextPassword);
-        mBtnRegister = findViewById(R.id.join_button);
+        mBtnRegister = (Button)findViewById(R.id.join_button);
+        mBtnRegister.setOnClickListener(this);
 
-        mBtnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 회원가입 처리 시작
-                String strEmail = mEtEmail.getText().toString();
-                String strPwd = mEtPwd.getText().toString();
+        myFirebase = FirebaseDatabase.getInstance();
+        myDB_Reference = myFirebase.getReference();
 
-                // Firebase Auth 진행
-                mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(JoinActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-
-                            UserAccount account = new UserAccount();
-                            account.setIdTocken(firebaseUser.getUid());
-                            account.setEmailId(firebaseUser.getEmail());
-                            account.setPassword(strPwd);
-
-                            // setValue: database에 삽입
-                            mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
-
-                            Toast.makeText(JoinActivity.this,"회원가입에 성공!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(JoinActivity.this,"회원가입에 실패!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
-
+        Customer_Value = new HashMap<>();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.join_button) {
+            strCName = mEtName.getText().toString();
+            strCPassword = mEtPwd.getText().toString();
+            strCEmail = mEtEmail.getText().toString();
+            strCPhone = mEtPhone.getText().toString();
+            if (!strCName.equals("")) {
+                
+                Customer_Value.put("Name", strCName);
+                Customer_Value.put("Email", strCEmail);
+                Customer_Value.put("Phone", strCPhone);
+                Customer_Value.put("Password", strCPassword);
+                
+                mSet_FirebaseDatabase(true);
+                mGet_FirebaseDatabase();
+            }
+            mEtEmail.setText("");
+            mEtPwd.setText("");
+            mEtName.setText("");
+            mEtPhone.setText("");
+        } else {
+            mEtEmail.setText("");
+            mEtPwd.setText("");
+            mEtName.setText("");
+            mEtPhone.setText("");
+        }
+
+    }
+
+    private void mGet_FirebaseDatabase() {
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError dbError) {
+                Log.w("Tag: ", "Failed to read value", dbError.toException());
+            }
+        };
+
+        //이름순으로 분류
+        Query sortbyName = FirebaseDatabase.getInstance().getReference().child(strHeader).orderByChild(strCName);
+        sortbyName.addListenerForSingleValueEvent(postListener);
+    }
+
+    private void mSet_FirebaseDatabase(boolean bFlag) {
+        if (bFlag) {
+            myDB_Reference.child(strHeader).child(strCPhone).setValue(Customer_Value);
+        }
     }
 }
