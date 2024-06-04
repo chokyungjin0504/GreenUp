@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     private ArrayList<Contents> arrayList; //상품 정보 리스트
     private Context context;
-
 
     public CustomAdapter(ArrayList<Contents> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -37,17 +35,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        Contents contents = arrayList.get(position);
+
         Glide.with(holder.itemView)
-                .load(arrayList.get(position).getProfile())
+                .load(contents.getProfile())
                 .into(holder.iv_profile); //서버로부터 이미지 받아와서 삽입
-        holder.tv_id.setText(arrayList.get(position).getId());
-        holder.tv_pw.setText(arrayList.get(position).getPw()); //패스워트가 숫자여도 문자 형태로 가져옴!
-        holder.tv_userName.setText(arrayList.get(position).getUserName());
+        holder.tv_id.setText(contents.getId());
+        holder.tv_pw.setText(contents.getPw()); //패스워트가 숫자여도 문자 형태로 가져옴!
+        holder.tv_userName.setText(contents.getUserName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DetailsActivity로 이동하는 Intent 생성 및 시작
+                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+                intent.putExtra("profile", contents.getProfile());
+                intent.putExtra("id", contents.getId());
+                intent.putExtra("pw", contents.getPw());
+                intent.putExtra("userName", contents.getUserName());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return (arrayList!=null? arrayList.size() : 0);
+        return (arrayList != null ? arrayList.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -63,17 +76,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tv_id = itemView.findViewById(R.id.tv_id);
             this.tv_pw = itemView.findViewById(R.id.tv_pw);
             this.tv_userName = itemView.findViewById(R.id.tv_userName);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    Toast.makeText(itemView.getContext(),"ok", Toast.LENGTH_LONG).show();
-
-                    // DetailsActivity로 이동하는 Intent 생성 및 시작
-                    Intent intent = new Intent(itemView.getContext(), DetailsActivity.class);
-                    itemView.getContext().startActivity(intent);
-                }
-            });
         }
     }
 }
