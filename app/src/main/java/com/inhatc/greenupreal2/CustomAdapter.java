@@ -1,11 +1,13 @@
 package com.inhatc.greenupreal2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,10 +58,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
+
             this.iv_profile = itemView.findViewById(R.id.iv_profile);
             this.tv_id = itemView.findViewById(R.id.tv_id);
             this.tv_pw = itemView.findViewById(R.id.tv_pw);
             this.tv_userName = itemView.findViewById(R.id.tv_userName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Toast.makeText(itemView.getContext(),"ok", Toast.LENGTH_LONG).show();
+
+                    // DetailsActivity로 이동하는 Intent 생성 및 시작
+                    Intent intent = new Intent(itemView.getContext(), DetailsActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }
