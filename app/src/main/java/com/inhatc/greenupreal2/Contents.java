@@ -6,6 +6,8 @@ public class Contents {
     private String pw;
     private String userName;
 
+    private boolean isFavorite; // 찜 상태를 저장할 필드
+
     public Contents() {}
 
     public String getProfile() {
@@ -38,5 +40,14 @@ public class Contents {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

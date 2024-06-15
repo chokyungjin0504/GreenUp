@@ -1,5 +1,6 @@
 package com.inhatc.greenupreal2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +33,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
 
     FirebaseDatabase myFirebase;
     DatabaseReference myDB_Reference = null;
-    
+
     HashMap<String, Object> Customer_Value = null;
     UserAccount objCustomerInfo = null;
 
@@ -44,18 +45,19 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
     String strCPhone = null;
     String strCPassword = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_join);
 
-        mEtName = (EditText)findViewById(R.id.id_nametext);
-        mEtEmail = (EditText)findViewById(R.id.loginID_text);
-        mEtPwd = (EditText)findViewById(R.id.editTextPassword);
-        mEtPhone = (EditText)findViewById(R.id.id_Phonetext);
+        mEtName = (EditText) findViewById(R.id.id_nametext);
+        mEtEmail = (EditText) findViewById(R.id.loginID_text);
+        mEtPwd = (EditText) findViewById(R.id.editTextPassword);
+        mEtPhone = (EditText) findViewById(R.id.id_Phonetext);
 
-        mBtnRegister = (Button)findViewById(R.id.join_button);
+        mBtnRegister = (Button) findViewById(R.id.join_button);
         mBtnRegister.setOnClickListener(this);
 
         myFirebase = FirebaseDatabase.getInstance();
@@ -78,12 +80,12 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
             strCEmail = mEtEmail.getText().toString();
             strCPhone = mEtPhone.getText().toString();
             if (!strCName.equals("")) {
-                
+
                 Customer_Value.put("Name", strCName);
                 Customer_Value.put("Email", strCEmail);
                 Customer_Value.put("Phone", strCPhone);
                 Customer_Value.put("Password", strCPassword);
-                
+
                 mSet_FirebaseDatabase(true);
                 mGet_FirebaseDatabase();
             }
@@ -97,6 +99,11 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
             mEtName.setText("");
             mEtPhone.setText("");
         }
+
+        Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+
 
     }
 
