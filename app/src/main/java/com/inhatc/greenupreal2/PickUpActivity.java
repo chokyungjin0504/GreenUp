@@ -31,20 +31,14 @@ public class PickUpActivity extends AppCompatActivity {
         tvPw = findViewById(R.id.tv_pw_pickup);
         tvUserName = findViewById(R.id.tv_userName_pickup);
 
-        // Intent로부터 데이터를 받아옵니다.
-        Intent intent = getIntent();
-        if (intent != null) {
-            String profileUrl = intent.getStringExtra("profile");
-            String id = intent.getStringExtra("id");
-            String pw = intent.getStringExtra("pw");
-            String userName = intent.getStringExtra("userName");
+        // UserDataRepository로부터 데이터를 가져옵니다.
+        UserDataRepository repository = UserDataRepository.getInstance();
 
-            // 데이터를 뷰에 설정합니다.
-            Glide.with(this).load(profileUrl).into(ivProfile);
-            tvId.setText(id);
-            tvPw.setText(pw);
-            tvUserName.setText(userName);
-        }
+        // 데이터를 뷰에 설정합니다.
+        Glide.with(this).load(repository.getProfileUrl()).into(ivProfile);
+        tvId.setText(repository.getId());
+        tvPw.setText(repository.getPw());
+        tvUserName.setText(repository.getUserName());
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavi);
         // 기본 선택 항목 설정
@@ -69,9 +63,8 @@ public class PickUpActivity extends AppCompatActivity {
     private boolean handleNavigationItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        // 현재 액티비티에 있는 경우는 재실행하지 않도록 체크
         if (itemId == R.id.pickup_btn) {
-            return true;
+            return true; // 현재 액티비티이므로 아무것도 하지 않음
         }
 
         Intent intent = null;
@@ -84,6 +77,15 @@ public class PickUpActivity extends AppCompatActivity {
         }
 
         if (intent != null) {
+            // UserDataRepository로부터 데이터를 가져옵니다.
+            UserDataRepository repository = UserDataRepository.getInstance();
+
+            // 데이터를 인텐트에 추가
+            intent.putExtra("profile", repository.getProfileUrl());
+            intent.putExtra("id", repository.getId());
+            intent.putExtra("pw", repository.getPw());
+            intent.putExtra("userName", repository.getUserName());
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); // 애니메이션 없이 전환
             startActivity(intent);
             overridePendingTransition(0, 0); // 전환 애니메이션 없앰

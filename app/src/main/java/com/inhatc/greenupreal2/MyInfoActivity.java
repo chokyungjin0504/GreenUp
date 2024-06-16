@@ -24,9 +24,9 @@ public class MyInfoActivity extends AppCompatActivity {
 
         tvFullName = findViewById(R.id.fullname); // fullname 필드
 
-        // Intent로부터 사용자 ID를 받아옴
-        Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId");
+        // LoginDataRepository로부터 사용자 ID를 가져옴
+        LoginDataRepository repository = LoginDataRepository.getInstance();
+        String userId = repository.getUserId();
         tvFullName.setText(userId); // fullname에 사용자 ID 설정
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavi);
@@ -49,7 +49,7 @@ public class MyInfoActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.mypage_btn) {
-            return true;
+            return true; // 현재 액티비티이므로 아무것도 하지 않음
         }
 
         Intent intent = null;

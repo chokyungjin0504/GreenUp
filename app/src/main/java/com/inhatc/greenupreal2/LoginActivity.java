@@ -31,9 +31,12 @@ public class LoginActivity extends AppCompatActivity {
                 // 사용자 ID 가져오기
                 String userId = edtUserId.getText().toString();
 
+                // LoginDataRepository에 사용자 ID 저장
+                LoginDataRepository repository = LoginDataRepository.getInstance();
+                repository.setUserId(userId);
+
                 // MainActivity로 이동
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("userId", userId); // 사용자 ID 전달
                 startActivity(intent);
                 finish();
             }

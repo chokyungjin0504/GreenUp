@@ -21,6 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvPw;
     private TextView tvUserName;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,6 @@ public class DetailsActivity extends AppCompatActivity {
         tvUserName = findViewById(R.id.tv_userName);
         btnReserve = findViewById(R.id.btnReserve);
 
-        // MainActivity에서 전달된 데이터를 가져옵니다.
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String profileUrl = extras.getString("profile");
@@ -40,22 +40,22 @@ public class DetailsActivity extends AppCompatActivity {
             String pw = extras.getString("pw");
             String userName = extras.getString("userName");
 
-            // 데이터를 뷰에 설정합니다.
             Glide.with(this).load(profileUrl).into(ivProfile);
             tvId.setText(id);
             tvPw.setText(pw);
             tvUserName.setText(userName);
 
-            // btnReserve 클릭 리스너 설정
+            UserDataRepository repository = UserDataRepository.getInstance();
+            repository.setProfileUrl(profileUrl);
+            repository.setId(id);
+            repository.setPw(pw);
+            repository.setUserName(userName);
+
             btnReserve.setOnClickListener(v -> {
-                // PickUpActivity로 데이터를 전달하는 인텐트 생성
                 Intent intent = new Intent(DetailsActivity.this, PickUpActivity.class);
-                intent.putExtra("profile", profileUrl);
-                intent.putExtra("id", id);
-                intent.putExtra("pw", pw);
-                intent.putExtra("userName", userName);
                 startActivity(intent);
             });
         }
     }
+
 }
