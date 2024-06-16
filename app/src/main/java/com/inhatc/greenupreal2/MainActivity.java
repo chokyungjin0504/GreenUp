@@ -38,10 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavi);
 
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, PickUpActivity.class);
         } else if (itemId == R.id.mypage_btn) {
             intent = new Intent(this, MyInfoActivity.class);
+            intent.putExtra("userId", userId); // 사용자 ID 전달
         }
 
         if (intent != null) {

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,11 +13,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText edtUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        edtUserId = findViewById(R.id.editTextID); // EditText 필드
 
         Button btnLogin = findViewById(R.id.login_button);
         Button btnJoin = findViewById(R.id.join_button);
@@ -25,8 +28,12 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 사용자 ID 가져오기
+                String userId = edtUserId.getText().toString();
+
                 // MainActivity로 이동
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("userId", userId); // 사용자 ID 전달
                 startActivity(intent);
                 finish();
             }
