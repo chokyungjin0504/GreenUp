@@ -23,11 +23,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     private ArrayList<Contents> arrayList;
     private Context context;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences2;
 
     public CustomAdapter(ArrayList<Contents> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
         this.sharedPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
+        this.sharedPreferences2 = context.getSharedPreferences("pickup", Context.MODE_PRIVATE);
     }
 
     @NonNull

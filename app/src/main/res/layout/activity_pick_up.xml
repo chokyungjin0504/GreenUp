@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".PickUpActivity">
 
-    <Toolbar
-        android:id="@+id/Tollbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="#49A981"
@@ -22,11 +22,9 @@
             android:layout_gravity="center"
             android:text="Greenup"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
-    </Toolbar>
-
-
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/main_frame"
@@ -36,13 +34,50 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Tollbar">
+        app:layout_constraintTop_toBottomOf="@+id/Toolbar">
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recyclerView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="507dp" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
 
+            <ImageView
+                android:id="@+id/iv_profile_pickup"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile Picture" />
+
+            <TextView
+                android:id="@+id/tv_id_pickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="ID"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_pw_pickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Password"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tv_userName_pickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="User Name"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -53,8 +88,5 @@
         app:itemTextColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_nav" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

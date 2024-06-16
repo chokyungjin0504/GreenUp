@@ -1,5 +1,6 @@
 package com.inhatc.greenupreal2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,7 +45,17 @@ public class DetailsActivity extends AppCompatActivity {
             tvId.setText(id);
             tvPw.setText(pw);
             tvUserName.setText(userName);
-        }
 
+            // btnReserve 클릭 리스너 설정
+            btnReserve.setOnClickListener(v -> {
+                // PickUpActivity로 데이터를 전달하는 인텐트 생성
+                Intent intent = new Intent(DetailsActivity.this, PickUpActivity.class);
+                intent.putExtra("profile", profileUrl);
+                intent.putExtra("id", id);
+                intent.putExtra("pw", pw);
+                intent.putExtra("userName", userName);
+                startActivity(intent);
+            });
+        }
     }
 }
