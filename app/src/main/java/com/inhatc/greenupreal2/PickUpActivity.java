@@ -3,7 +3,10 @@ package com.inhatc.greenupreal2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ public class PickUpActivity extends AppCompatActivity {
     private TextView tvId;
     private TextView tvPw;
     private TextView tvUserName;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class PickUpActivity extends AppCompatActivity {
         tvId = findViewById(R.id.tv_id_pickup);
         tvPw = findViewById(R.id.tv_pw_pickup);
         tvUserName = findViewById(R.id.tv_userName_pickup);
+        linearLayout = findViewById(R.id.linearLayout);
 
         // UserDataRepository로부터 데이터를 가져옵니다.
         UserDataRepository repository = UserDataRepository.getInstance();
@@ -58,6 +63,29 @@ public class PickUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // btn_submit 클릭 리스너 설정
+        Button btnSubmit = findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage();
+            }
+        });
+    }
+
+    private void showImage() {
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.img_1);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(0, 16, 0, 0); // 마진 설정
+        imageView.setLayoutParams(layoutParams);
+
+        // 이미지 뷰를 레이아웃에 추가
+        linearLayout.addView(imageView);
     }
 
     private boolean handleNavigationItemSelected(MenuItem item) {

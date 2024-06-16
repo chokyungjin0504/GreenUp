@@ -33,22 +33,25 @@
         android:layout_marginTop="130dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
+        app:layout_constraintVertical_bias="0.452">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_profile_pickup"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="Profile Picture" />
+                android:contentDescription="Profile Picture"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_id_pickup"
@@ -56,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="ID"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_pw_pickup"
@@ -65,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Password"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_userName_pickup"
@@ -74,10 +77,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="User Name"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#49A981"
+                android:text="QR 코드"
+                android:textColor="@android:color/white" />
+
+            <!-- 이 ImageView는 나중에 동적으로 추가될 것입니다. -->
         </LinearLayout>
+
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -88,5 +102,4 @@
         app:itemTextColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_nav" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
