@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,7 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvUserName = findViewById(R.id.tv_userName);
         btnReserve = findViewById(R.id.btnReserve);
 
-        // Get the data passed from the MainActivity
+        // MainActivity에서 전달된 데이터를 가져옵니다.
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String profileUrl = extras.getString("profile");
@@ -40,28 +39,12 @@ public class DetailsActivity extends AppCompatActivity {
             String pw = extras.getString("pw");
             String userName = extras.getString("userName");
 
-            // Set the data to the views
+            // 데이터를 뷰에 설정합니다.
             Glide.with(this).load(profileUrl).into(ivProfile);
             tvId.setText(id);
             tvPw.setText(pw);
             tvUserName.setText(userName);
         }
 
-        // Set the click listener for the reserve button
-        btnReserve.setOnClickListener(view -> {
-            FragPickUp fragPickUp = new FragPickUp();
-            Bundle bundle = new Bundle();
-            bundle.putString("profile", extras.getString("profile"));
-            bundle.putString("id", extras.getString("id"));
-            bundle.putString("pw", extras.getString("pw"));
-            bundle.putString("userName", extras.getString("userName"));
-            fragPickUp.setArguments(bundle);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragPickUp);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        });
     }
 }

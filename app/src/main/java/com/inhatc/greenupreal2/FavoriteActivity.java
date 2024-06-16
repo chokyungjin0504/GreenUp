@@ -1,21 +1,13 @@
 package com.inhatc.greenupreal2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,24 +19,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class FavoriteActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_MAP = 1;
-    private Button btnLocation;
-    private EditText edtLocation;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<Contents> arrayList;
+    private ArrayList<Contents> arrayList; // 좋아요 리스트
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_favorite);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavi);
 
@@ -56,50 +46,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnLocation = findViewById(R.id.btnLocation);
-        edtLocation = findViewById(R.id.edtLocation);
-
-        btnLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_MAP);
-            }
-        });
-
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
+        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        arrayList = new ArrayList<>(); // Contents 객체를 담을 어레이 리스트 (어댑터쪽으로)
+        arrayList = new ArrayList<>();
+        sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
 
-        database = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
-        databaseReference = database.getReference("Contents"); // DB 테이블 연결
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Contents");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                arrayList.clear(); // 기존 배열 리스트가 존재하지 않게 초기화
+                arrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Contents contents = snapshot.getValue(Contents.class); // 만들어뒀던 Contents 객체에 데이터를 담는다
-                    arrayList.add(contents); // 담은 데이터들을 배열 리스트에 넣고 리사이클러뷰로 보낼 준비
+                    Contents contents = snapshot.getValue(Contents.class);
+                    if (contents != null && sharedPreferences.getBoolean(contents.getId(), false)) {
+                        contents.setFavorite(true); // 좋아요 상태로 설정
+                        arrayList.add(contents);
+                    }
                 }
-                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("MainActivity", String.valueOf(error.toException())); // 에러문 출력
+                Log.e("FavoriteActivity", String.valueOf(error.toException()));
             }
         });
 
-        adapter = new CustomAdapter(arrayList, this);
-        recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        adapter = new CustomAdapter(arrayList, this); // 좋아요 리스트를 어댑터에 연결
+        recyclerView.setAdapter(adapter);
     }
 
     private boolean handleNavigationItemSelected(MenuItem item) {
@@ -118,14 +95,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true; // 매칭되는 메뉴 항목이 있는 경우 true 반환
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_MAP && resultCode == RESULT_OK && data != null) {
-            String location = data.getStringExtra("location");
-            edtLocation.setText(location);
-        }
     }
 }

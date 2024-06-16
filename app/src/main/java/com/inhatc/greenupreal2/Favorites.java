@@ -1,11 +1,14 @@
 package com.inhatc.greenupreal2;
 
-public class Contents {
+public class Favorites {
     private String profile;
     private String id;
     private String pw;
+    private String userName;
+    private boolean favorite; // 찜 상태를 나타내는 필드 추가
 
-    public Contents(String profile, String id, String pw, String userName, boolean favorite) {
+    // 생성자 추가
+    public Favorites(String profile, String id, String pw, String userName, boolean favorite) {
         this.profile = profile;
         this.id = id;
         this.pw = pw;
@@ -13,20 +16,7 @@ public class Contents {
         this.favorite = favorite;
     }
 
-    private String userName;
-
-    private boolean favorite; // 찜 상태를 나타내는 필드 추가
-
-    // Getter 및 Setter 추가
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
-    public Contents() {}
-
+    // Getters and Setters
     public String getProfile() {
         return profile;
     }
@@ -59,6 +49,11 @@ public class Contents {
         this.userName = userName;
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
 
-
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 }
