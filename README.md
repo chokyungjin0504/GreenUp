@@ -2,7 +2,7 @@
 > 2024 Android Application Project
 
 
-## 👭🏻Member
+## 👭🏻Collaborator
 👩🏻[Ari Song](https://github.com/songa102)
 
 
