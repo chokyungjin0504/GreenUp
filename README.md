@@ -21,6 +21,8 @@ Tool:
 Etc:
 `Google Maps API`
 
+![https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+
 ##  Scenario
 ![image3](https://github.com/chokyungjin0504/GreenUp/blob/main/image_3.png)
 1. The seller uploads food with an approaching expiration date to the app at a discounted price.
