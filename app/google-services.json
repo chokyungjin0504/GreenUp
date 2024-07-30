@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "569178554553",
+    "project_id": "greenupreal2",
+    "storage_bucket": "greenupreal2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569178554553:android:b24f2c45fb9223791a9b68",
+        "android_client_info": {
+          "package_name": "com.inhatc.greenupreal2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM6AXdnsQ6TPukfymYEpg3M4_6Qx3QXKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
