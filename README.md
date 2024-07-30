@@ -21,8 +21,12 @@ Tool:
 Etc:
 `Google Maps API`
 
+##  Scenario
+![image3](https://github.com/chokyungjin0504/GreenUp/blob/main/image_3.png)
+
 ##  Description
 ![image2](https://github.com/chokyungjin0504/GreenUp/blob/main/image_2.png)
+
 
 ##  Dessertation
 [KSCI p145](https://ibookkorea.net/Viewer/2024-02)
