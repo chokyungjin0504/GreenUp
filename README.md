@@ -23,13 +23,22 @@ Etc:
 
 ##  Scenario
 ![image3](https://github.com/chokyungjin0504/GreenUp/blob/main/image_3.png)
+1. The seller uploads food with an approaching expiration date to the app at a discounted price.
+2. Users located near the store can view the food on the app.
+3. Users interested in the food complete the payment through the app.
+4. At the pickup time, the user goes to the store.
+5. The buyer shows the QR code provided by the app to the seller and receives the food.
 
-##  Description
+##  Main Function
 ![image2](https://github.com/chokyungjin0504/GreenUp/blob/main/image_2.png)
-
+1. login / register
+2. GPS
+3. Get contents from Firebase Realtime Database
+4. Main / Favorites / Cart / Mypage
 
 ##  Dessertation
 [KSCI p145](https://ibookkorea.net/Viewer/2024-02)
+
 
 ##  Demonstration video
 [Click to watch Youtube video](https://youtu.be/9EwzVdQH0Qo)
