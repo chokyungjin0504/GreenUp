@@ -53,4 +53,4 @@ Etc:
 
 
 ## ⏩Demonstration video
-[Click to watch Youtube video](https://youtu.be/9EwzVdQH0Qo)
+[Click here to watch Youtube video](https://youtu.be/9EwzVdQH0Qo)
